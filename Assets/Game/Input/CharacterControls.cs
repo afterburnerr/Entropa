@@ -10,6 +10,7 @@ namespace Entropa.Input
         public const string MoveName = "Move";
         public const string LookName = "Look";
         public const string SprintName = "Sprint";
+        public const string WalkName = "Walk";
         public const string RollName = "Roll";
         public const string LightAttackName = "LightAttack";
         public const string HeavyAttackName = "HeavyAttack";
@@ -22,6 +23,7 @@ namespace Entropa.Input
             MoveName,
             LookName,
             SprintName,
+            WalkName,
             RollName,
             LightAttackName,
             HeavyAttackName,
@@ -34,6 +36,7 @@ namespace Entropa.Input
         private readonly InputAction _move;
         private readonly InputAction _look;
         private readonly InputAction _sprint;
+        private readonly InputAction _walk;
         private readonly InputAction _roll;
         private readonly InputAction _lightAttack;
         private readonly InputAction _heavyAttack;
@@ -52,6 +55,7 @@ namespace Entropa.Input
             _move = FindAction(MoveName);
             _look = FindAction(LookName);
             _sprint = FindAction(SprintName);
+            _walk = FindAction(WalkName);
             _roll = FindAction(RollName);
             _lightAttack = FindAction(LightAttackName);
             _heavyAttack = FindAction(HeavyAttackName);
@@ -65,6 +69,8 @@ namespace Entropa.Input
         public Vector2 Look => _look.ReadValue<Vector2>();
 
         public bool SprintHeld => _sprint.IsPressed();
+
+        public bool WalkHeld => _walk.IsPressed();
 
         public bool RollPressedThisFrame => _roll.WasPressedThisFrame();
 

@@ -82,6 +82,7 @@ namespace Entropa.Gameplay
             {
                 MoveDirection = ToWorldDirection(_controls.Move),
                 SprintHeld = _controls.SprintHeld,
+                WalkHeld = _controls.WalkHeld,
                 RollPressed = _controls.RollPressedThisFrame,
                 LightAttackPressed = _controls.LightAttackPressedThisFrame,
                 HeavyAttackPressed = _controls.HeavyAttackPressedThisFrame

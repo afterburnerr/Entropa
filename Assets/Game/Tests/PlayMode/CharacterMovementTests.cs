@@ -114,6 +114,13 @@ namespace Entropa.Tests.PlayMode
             Assert.Fail($"field '{field}' not found on {target.GetType().Name}");
         }
 
+        private float PlanarSpeed()
+        {
+            Vector3 velocity = _player.GetComponent<CharacterController>().velocity;
+            velocity.y = 0f;
+            return velocity.magnitude;
+        }
+
         private static IEnumerator RunForSeconds(float seconds)
         {
             float elapsed = 0f;
@@ -147,6 +154,35 @@ namespace Entropa.Tests.PlayMode
 
             float height = _player.transform.position.y;
             Assert.That(height, Is.InRange(-0.1f, 0.3f), "player should stay on the ground plane");
+        }
+
+        [UnityTest]
+        public IEnumerator Player_Walks_WhenWalkModifierHeld()
+        {
+            _source.Next = new CharacterIntent { MoveDirection = Vector3.forward, WalkHeld = true };
+            yield return RunForSeconds(1f);
+
+            float speed = PlanarSpeed();
+            Assert.AreEqual(_config.WalkSpeed, speed, 0.1f, $"expected walk speed, got {speed:0.00}");
+        }
+
+        [UnityTest]
+        public IEnumerator Player_Jogs_ByDefault()
+        {
+            yield return RunForSeconds(1f);
+
+            float speed = PlanarSpeed();
+            Assert.AreEqual(_config.RunSpeed, speed, 0.1f, $"expected jog speed, got {speed:0.00}");
+        }
+
+        [UnityTest]
+        public IEnumerator Player_Sprints_WhenSprintHeld()
+        {
+            _source.Next = new CharacterIntent { MoveDirection = Vector3.forward, SprintHeld = true };
+            yield return RunForSeconds(1f);
+
+            float speed = PlanarSpeed();
+            Assert.AreEqual(_config.SprintSpeed, speed, 0.1f, $"expected sprint speed, got {speed:0.00}");
         }
 
         [UnityTest]

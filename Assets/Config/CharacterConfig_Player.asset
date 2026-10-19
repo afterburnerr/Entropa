@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CharacterConfig_Player
   m_EditorClassIdentifier: Entropa.Character::Entropa.Character.CharacterConfig
   _walkSpeed: 1.2
-  _runSpeed: 1.2
+  _runSpeed: 2.4
   _sprintSpeed: 6.4
   _acceleration: 28
   _deceleration: 36

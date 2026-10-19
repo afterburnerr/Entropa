@@ -71,6 +71,7 @@ namespace Entropa.Tests.EditMode
             AssertActionHasDevice(CharacterControls.LookName, "<Gamepad>");
             AssertActionHasDevice(CharacterControls.SprintName, "<Keyboard>");
             AssertActionHasDevice(CharacterControls.SprintName, "<Gamepad>");
+            AssertActionHasDevice(CharacterControls.WalkName, "<Keyboard>");
             AssertActionHasDevice(CharacterControls.RollName, "<Keyboard>");
             AssertActionHasDevice(CharacterControls.RollName, "<Gamepad>");
         }

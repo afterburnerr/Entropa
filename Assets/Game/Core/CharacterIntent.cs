@@ -6,6 +6,7 @@ namespace Entropa.Core
     {
         public Vector3 MoveDirection;
         public bool SprintHeld;
+        public bool WalkHeld;
         public bool RollPressed;
         public bool LightAttackPressed;
         public bool HeavyAttackPressed;

@@ -31,16 +31,28 @@ namespace Entropa.Character
                 return;
             }
 
-            bool sprinting = context.CurrentIntent.SprintHeld && inputMagnitude > 0.5f;
+            bool walkHeld = context.CurrentIntent.WalkHeld;
+            bool sprinting = context.CurrentIntent.SprintHeld && !walkHeld && inputMagnitude > 0.5f;
 
             if (sprinting)
             {
                 sprinting = context.Stamina.TryDrain(config.SprintDrainPerSecond * deltaTime);
             }
 
-            float speed = sprinting
-                ? config.SprintSpeed
-                : Mathf.Lerp(config.WalkSpeed, config.RunSpeed, inputMagnitude);
+            float speed;
+
+            if (sprinting)
+            {
+                speed = config.SprintSpeed;
+            }
+            else if (walkHeld)
+            {
+                speed = config.WalkSpeed * inputMagnitude;
+            }
+            else
+            {
+                speed = Mathf.Lerp(config.WalkSpeed, config.RunSpeed, inputMagnitude);
+            }
 
             context.Motor.SetTargetPlanarVelocity(moveDirection.normalized * speed);
 

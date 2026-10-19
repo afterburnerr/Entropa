@@ -33,6 +33,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Walk",
+                    "type": "Button",
+                    "id": "ea8613f0-ecfb-4ab1-88a8-b31a5bbdb6a8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Roll",
                     "type": "Button",
                     "id": "36d54fb3-13f5-47f3-bd0e-7058b0300c5c",
@@ -195,6 +204,28 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "33055d3e-a607-4311-83b6-0e67daa1f462",
+                    "path": "<Keyboard>/leftCtrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Walk",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e7a5e3d8-512e-4211-b2aa-8ac81b0df597",
+                    "path": "<Keyboard>/rightCtrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Walk",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
