@@ -45,8 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49bc72c0bbaa26aa0b8ee34778a829f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Entropa.Cameras::Entropa.Cameras.CameraRig
-  _followAnchor: {fileID: 0}
-  _targetProviderBehaviour: {fileID: 0}
   _distance: 5
   _lookSensitivity: 1
   _gamepadLookRate: 2.5
