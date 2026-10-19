@@ -152,7 +152,7 @@ MonoBehaviour:
     TypeName: 
   autoRun: 1
   autoInjectGameObjects: []
-  _startupLocation: {fileID: 11400000, guid: 2eac4b62e8146695686c557e914ce90a, type: 2}
+  _startupLocation: {fileID: 11400000, guid: b2ec2e66a40a0ebc589bb9d35c923028, type: 2}
   _startupPointId: Default
 --- !u!4 &306425793
 Transform:

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using VContainer;
 using VContainer.Unity;
 
@@ -35,8 +36,37 @@ namespace Entropa.World
             }
 
             builder.RegisterComponentInHierarchy<LocationRoot>();
-            builder.RegisterComponentInHierarchy<TransitionPreloader>();
-            builder.RegisterComponentInHierarchy<TransitionExecutor>();
+
+            if (FindInScene<TransitionPreloader>() != null)
+            {
+                builder.RegisterComponentInHierarchy<TransitionPreloader>();
+            }
+
+            if (FindInScene<TransitionExecutor>() != null)
+            {
+                builder.RegisterComponentInHierarchy<TransitionExecutor>();
+            }
+        }
+
+        private T FindInScene<T>() where T : Component
+        {
+            Scene scene = gameObject.scene;
+            if (!scene.IsValid())
+            {
+                return null;
+            }
+
+            GameObject[] roots = scene.GetRootGameObjects();
+            for (int i = 0; i < roots.Length; i++)
+            {
+                T component = roots[i].GetComponentInChildren<T>(true);
+                if (component != null)
+                {
+                    return component;
+                }
+            }
+
+            return null;
         }
     }
 }
