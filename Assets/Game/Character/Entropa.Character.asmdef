@@ -1,0 +1,17 @@
+{
+    "name": "Entropa.Character",
+    "rootNamespace": "Entropa.Character",
+    "references": [
+        "Entropa.Core",
+        "Entropa.Combat"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

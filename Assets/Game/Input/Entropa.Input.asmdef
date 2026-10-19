@@ -1,0 +1,17 @@
+{
+    "name": "Entropa.Input",
+    "rootNamespace": "Entropa.Input",
+    "references": [
+        "Entropa.Core",
+        "Unity.InputSystem"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

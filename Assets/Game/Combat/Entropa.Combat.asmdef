@@ -1,0 +1,16 @@
+{
+    "name": "Entropa.Combat",
+    "rootNamespace": "Entropa.Combat",
+    "references": [
+        "Entropa.Core"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

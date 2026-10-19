@@ -1,0 +1,26 @@
+{
+    "name": "Entropa.Tests.PlayMode",
+    "rootNamespace": "Entropa.Tests.PlayMode",
+    "references": [
+        "Entropa.Core",
+        "Entropa.Combat",
+        "Entropa.Character",
+        "Entropa.Cameras",
+        "Entropa.Input",
+        "Entropa.Gameplay",
+        "UnityEngine.TestRunner"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

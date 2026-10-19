@@ -1,0 +1,21 @@
+{
+    "name": "Entropa.Gameplay",
+    "rootNamespace": "Entropa.Gameplay",
+    "references": [
+        "Entropa.Core",
+        "Entropa.Combat",
+        "Entropa.Character",
+        "Entropa.Cameras",
+        "Entropa.Input",
+        "Unity.InputSystem"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
