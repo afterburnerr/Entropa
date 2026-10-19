@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06b02c1cc18430360b4c622a6b4dd6f2, type: 3}
   m_Name: CharacterConfig_Player
   m_EditorClassIdentifier: Entropa.Character::Entropa.Character.CharacterConfig
-  _walkSpeed: 1.6
-  _runSpeed: 4
+  _walkSpeed: 1
+  _runSpeed: 1
   _sprintSpeed: 6.4
   _acceleration: 28
   _deceleration: 36
