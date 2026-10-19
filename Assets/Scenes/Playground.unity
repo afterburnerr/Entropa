@@ -461,11 +461,6 @@ MonoBehaviour:
   blendDistance: 0
   weight: 1
   sharedProfile: {fileID: 11400000, guid: d90defa708ff23c3b8e57b938f316297, type: 2}
---- !u!4 &252852462 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1314318870947206327, guid: c31d7dab1a8d3f519a530167c1c9d1a9, type: 3}
-  m_PrefabInstance: {fileID: 6884567057752755809}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &280299891
 GameObject:
   m_ObjectHideFlags: 0
@@ -583,17 +578,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8389260934036847157, guid: c31d7dab1a8d3f519a530167c1c9d1a9, type: 3}
   m_PrefabInstance: {fileID: 6884567057752755809}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &372025385 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 836956243654100682, guid: c31d7dab1a8d3f519a530167c1c9d1a9, type: 3}
-  m_PrefabInstance: {fileID: 6884567057752755809}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d354c3b24ae78827789eea99032107e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Entropa.Character::Entropa.Character.CharacterTargeting
 --- !u!1 &392483290
 GameObject:
   m_ObjectHideFlags: 0
@@ -1003,6 +987,54 @@ Transform:
   - {fileID: 1299412192}
   - {fileID: 436422951}
   m_Father: {fileID: 605328761}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &858455337
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 858455339}
+  - component: {fileID: 858455338}
+  m_Layer: 0
+  m_Name: GameScope
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &858455338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 858455337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd1634a04d175fff38122181e14f4e1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Entropa.Bootstrap::Entropa.Bootstrap.GameLifetimeScope
+  parentReference:
+    TypeName: 
+  autoRun: 1
+  autoInjectGameObjects: []
+--- !u!4 &858455339
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 858455337}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &924475937
 GameObject:
@@ -1491,17 +1523,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 861060336050063801, guid: 371adcdeada7e57ffaf4169522390f9a, type: 3}
   m_PrefabInstance: {fileID: 6290701584731587723}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1213548050 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3837722365273080568, guid: 371adcdeada7e57ffaf4169522390f9a, type: 3}
-  m_PrefabInstance: {fileID: 6290701584731587723}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49bc72c0bbaa26aa0b8ee34778a829f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Entropa.Cameras::Entropa.Cameras.CameraRig
 --- !u!1 &1272924999
 GameObject:
   m_ObjectHideFlags: 0
@@ -2883,14 +2904,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CameraRig
       objectReference: {fileID: 0}
-    - target: {fileID: 3837722365273080568, guid: 371adcdeada7e57ffaf4169522390f9a, type: 3}
-      propertyPath: _followAnchor
-      value: 
-      objectReference: {fileID: 252852462}
-    - target: {fileID: 3837722365273080568, guid: 371adcdeada7e57ffaf4169522390f9a, type: 3}
-      propertyPath: _targetProviderBehaviour
-      value: 
-      objectReference: {fileID: 372025385}
     - target: {fileID: 7252703043172965628, guid: 371adcdeada7e57ffaf4169522390f9a, type: 3}
       propertyPath: far clip plane
       value: 300
@@ -2912,10 +2925,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1072399038}
     m_Modifications:
-    - target: {fileID: 91017774464491315, guid: c31d7dab1a8d3f519a530167c1c9d1a9, type: 3}
-      propertyPath: _cameraRig
-      value: 
-      objectReference: {fileID: 1213548050}
     - target: {fileID: 6154547086231926377, guid: c31d7dab1a8d3f519a530167c1c9d1a9, type: 3}
       propertyPath: m_Name
       value: PlayerCharacter
@@ -2973,3 +2982,4 @@ SceneRoots:
   - {fileID: 213412578}
   - {fileID: 1870678650}
   - {fileID: 1072399038}
+  - {fileID: 858455339}

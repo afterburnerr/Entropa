@@ -4,6 +4,7 @@ using Entropa.Core;
 using Entropa.Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using VContainer;
 
 namespace Entropa.Gameplay
 {
@@ -11,15 +12,21 @@ namespace Entropa.Gameplay
     public sealed class PlayerBrain : MonoBehaviour, IIntentSource
     {
         [SerializeField] private InputActionAsset _controlsAsset;
-        [SerializeField] private CameraRig _cameraRig;
         [SerializeField] private float _gamepadTargetSwitchThreshold = 0.7f;
 
         private CharacterBrain _brain;
+        private CameraRig _cameraRig;
         private InputActionAsset _runtimeControlsAsset;
         private CharacterControls _controls;
         private float _nextTargetSwitchTime;
 
         public CharacterControls Controls => _controls;
+
+        [Inject]
+        public void Construct(CameraRig cameraRig)
+        {
+            _cameraRig = cameraRig;
+        }
 
         private void Awake()
         {

@@ -2,7 +2,8 @@
     "name": "Entropa.Cameras",
     "rootNamespace": "Entropa.Cameras",
     "references": [
-        "Entropa.Core"
+        "Entropa.Core",
+        "VContainer"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

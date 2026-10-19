@@ -1,4 +1,6 @@
-using System.Collections;
+using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using Entropa.Combat;
 using UnityEngine;
 
@@ -15,7 +17,7 @@ namespace Entropa.Gameplay
 
         private Hurtbox _hurtbox;
         private MaterialPropertyBlock _block;
-        private Coroutine _flashRoutine;
+        private CancellationTokenSource _flashCancellation;
 
         private void Awake()
         {
@@ -30,6 +32,8 @@ namespace Entropa.Gameplay
             {
                 _hurtbox.Damaged -= OnDamaged;
             }
+
+            CancelFlash();
         }
 
         private void OnDamaged(DamageInfo damage)
@@ -39,20 +43,37 @@ namespace Entropa.Gameplay
                 return;
             }
 
-            if (_flashRoutine != null)
-            {
-                StopCoroutine(_flashRoutine);
-            }
-
-            _flashRoutine = StartCoroutine(Flash());
+            CancelFlash();
+            _flashCancellation = CancellationTokenSource.CreateLinkedTokenSource(this.GetCancellationTokenOnDestroy());
+            FlashAsync(_flashCancellation.Token).Forget();
         }
 
-        private IEnumerator Flash()
+        private async UniTaskVoid FlashAsync(CancellationToken token)
         {
             SetFlash(true);
-            yield return new WaitForSeconds(_flashDuration);
+
+            bool canceled = await UniTask.Delay(
+                TimeSpan.FromSeconds(_flashDuration),
+                cancellationToken: token).SuppressCancellationThrow();
+
+            if (canceled)
+            {
+                return;
+            }
+
             SetFlash(false);
-            _flashRoutine = null;
+        }
+
+        private void CancelFlash()
+        {
+            if (_flashCancellation == null)
+            {
+                return;
+            }
+
+            _flashCancellation.Cancel();
+            _flashCancellation.Dispose();
+            _flashCancellation = null;
         }
 
         private void SetFlash(bool on)

@@ -13,26 +13,6 @@ MonoBehaviour:
   m_Name: Moveset_Player
   m_EditorClassIdentifier: Entropa.Character::Entropa.Character.MovesetDefinition
   _lightCombo:
-  - _name: '"Light Attack"'
-    _damage: 20
-    _poiseDamage: 20
-    _staminaCost: 15
-    _startupDuration: 0.22
-    _activeDuration: 0.12
-    _recoveryDuration: 0.35
-    _cancelStartTime: 0.45
-    _moveSpeedMultiplier: 0.3
-    _hitRadius: 0.75
-    _hitOffset: {x: 0, y: 1, z: 0.8}
+  - {fileID: 11400000, guid: 34cf9a5b1155760799a2660f11e28e35, type: 2}
   _heavyCombo:
-  - _name: '"Heavy Attack"'
-    _damage: 35
-    _poiseDamage: 40
-    _staminaCost: 26
-    _startupDuration: 0.45
-    _activeDuration: 0.15
-    _recoveryDuration: 0.55
-    _cancelStartTime: 0.7
-    _moveSpeedMultiplier: 0.2
-    _hitRadius: 0.85
-    _hitOffset: {x: 0, y: 1, z: 0.9}
+  - {fileID: 11400000, guid: e88e606092912e933afb86e697a0aca3, type: 2}

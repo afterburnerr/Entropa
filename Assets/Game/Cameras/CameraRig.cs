@@ -1,14 +1,11 @@
 using Entropa.Core;
 using UnityEngine;
+using VContainer;
 
 namespace Entropa.Cameras
 {
     public sealed class CameraRig : MonoBehaviour
     {
-        [Header("Target")]
-        [SerializeField] private Transform _followAnchor;
-        [SerializeField] private MonoBehaviour _targetProviderBehaviour;
-
         [Header("Orbit")]
         [SerializeField] private float _distance = 5f;
         [SerializeField] private float _lookSensitivity = 1f;
@@ -29,8 +26,9 @@ namespace Entropa.Cameras
         [SerializeField] private float _collisionPushOutSpeed = 4f;
         [SerializeField] private LayerMask _collisionMask = GameLayers.EnvironmentMask;
 
-        private Transform _cameraTransform;
+        private Transform _followAnchor;
         private ITargetProvider _targetProvider;
+        private Transform _cameraTransform;
         private Vector3 _pivotVelocity;
         private float _yaw;
         private float _pitch;
@@ -41,7 +39,14 @@ namespace Entropa.Cameras
 
         public Vector3 PlanarForward => Quaternion.Euler(0f, _yaw, 0f) * Vector3.forward;
 
-        private void Awake()
+        [Inject]
+        public void Construct(CameraAnchor followAnchor, ITargetProvider targetProvider)
+        {
+            _followAnchor = followAnchor.transform;
+            _targetProvider = targetProvider;
+        }
+
+        private void Start()
         {
             ViewCamera = GetComponentInChildren<Camera>();
 
@@ -53,7 +58,6 @@ namespace Entropa.Cameras
             }
 
             _cameraTransform = ViewCamera.transform;
-            _targetProvider = _targetProviderBehaviour as ITargetProvider;
 
             if (_targetProvider == null)
             {
