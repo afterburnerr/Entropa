@@ -4,6 +4,7 @@ using Entropa.Combat;
 using Entropa.Core;
 using Entropa.Gameplay;
 using NUnit.Framework;
+using Unity.Cinemachine;
 using UnityEditor;
 using UnityEngine;
 
@@ -126,6 +127,14 @@ namespace Entropa.Tests.EditMode
             Assert.AreEqual("MainCamera", cameraTransform.tag);
             Assert.IsNotNull(cameraTransform.GetComponent<Camera>());
             Assert.IsNotNull(cameraTransform.GetComponent<AudioListener>());
+            Assert.IsNotNull(cameraTransform.GetComponent<CinemachineBrain>());
+
+            Transform virtualCamera = rig.transform.Find("Virtual Camera");
+            Assert.IsNotNull(virtualCamera);
+            Assert.IsNotNull(virtualCamera.GetComponent<CinemachineCamera>());
+            Assert.IsNotNull(virtualCamera.GetComponent<CinemachineOrbitalFollow>());
+            Assert.IsNotNull(virtualCamera.GetComponent<CinemachineHardLookAt>());
+            Assert.IsNotNull(virtualCamera.GetComponent<CinemachineDeoccluder>());
         }
     }
 }

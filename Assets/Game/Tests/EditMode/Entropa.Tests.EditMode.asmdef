@@ -12,7 +12,8 @@
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "Entropa.World",
-        "UniTask"
+        "UniTask",
+        "Unity.Cinemachine"
     ],
     "includePlatforms": [
         "Editor"

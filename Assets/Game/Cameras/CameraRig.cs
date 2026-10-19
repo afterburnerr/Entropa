@@ -1,4 +1,5 @@
 using Entropa.Core;
+using Unity.Cinemachine;
 using UnityEngine;
 using VContainer;
 
@@ -22,22 +23,17 @@ namespace Entropa.Cameras
 
         [Header("Collision")]
         [SerializeField] private float _collisionRadius = 0.25f;
-        [SerializeField] private float _collisionPullInSpeed = 30f;
-        [SerializeField] private float _collisionPushOutSpeed = 4f;
         [SerializeField] private LayerMask _collisionMask = GameLayers.EnvironmentMask;
 
         private Transform _followAnchor;
         private ITargetProvider _targetProvider;
-        private Transform _cameraTransform;
-        private Vector3 _pivotVelocity;
-        private float _yaw;
-        private float _pitch;
-        private float _currentDistance;
-        private bool _hasPosition;
+        private CinemachineCamera _virtualCamera;
+        private CinemachineOrbitalFollow _orbital;
+        private CinemachineDeoccluder _deoccluder;
 
         public Camera ViewCamera { get; private set; }
 
-        public Vector3 PlanarForward => Quaternion.Euler(0f, _yaw, 0f) * Vector3.forward;
+        public Vector3 PlanarForward => Quaternion.Euler(0f, _orbital.HorizontalAxis.Value, 0f) * Vector3.forward;
 
         [Inject]
         public void Construct(CameraAnchor followAnchor, ITargetProvider targetProvider)
@@ -49,6 +45,7 @@ namespace Entropa.Cameras
         private void Start()
         {
             ViewCamera = GetComponentInChildren<Camera>();
+            _virtualCamera = GetComponentInChildren<CinemachineCamera>();
 
             if (ViewCamera == null)
             {
@@ -57,7 +54,22 @@ namespace Entropa.Cameras
                 return;
             }
 
-            _cameraTransform = ViewCamera.transform;
+            if (_virtualCamera == null)
+            {
+                Debug.LogError($"{name}: no {nameof(CinemachineCamera)} found under {nameof(CameraRig)}.", this);
+                enabled = false;
+                return;
+            }
+
+            _orbital = _virtualCamera.GetComponent<CinemachineOrbitalFollow>();
+            _deoccluder = _virtualCamera.GetComponent<CinemachineDeoccluder>();
+
+            if (_orbital == null)
+            {
+                Debug.LogError($"{name}: {nameof(CinemachineOrbitalFollow)} is required on {_virtualCamera.name}.", this);
+                enabled = false;
+                return;
+            }
 
             if (_targetProvider == null)
             {
@@ -73,99 +85,83 @@ namespace Entropa.Cameras
                 return;
             }
 
-            _yaw = transform.eulerAngles.y;
-            _pitch = NormalizeAngle(transform.eulerAngles.x);
-            _pitch = Mathf.Clamp(_pitch, _minPitch, _maxPitch);
-            _currentDistance = _distance;
+            _virtualCamera.Follow = _followAnchor;
+            _virtualCamera.LookAt = _followAnchor;
+            _virtualCamera.Lens = LensSettings.FromCamera(ViewCamera);
+
+            _orbital.OrbitStyle = CinemachineOrbitalFollow.OrbitStyles.Sphere;
+            _orbital.Radius = _distance;
+            _orbital.TargetOffset = Vector3.zero;
+            _orbital.TrackerSettings.PositionDamping = Vector3.one * _positionSmoothing;
+
+            _orbital.HorizontalAxis.Wrap = true;
+            _orbital.HorizontalAxis.Recentering.Enabled = false;
+            _orbital.HorizontalAxis.Value = NormalizeAngle(transform.eulerAngles.y);
+
+            _orbital.VerticalAxis.Wrap = false;
+            _orbital.VerticalAxis.Recentering.Enabled = false;
+            _orbital.VerticalAxis.Range = new Vector2(_minPitch, _maxPitch);
+            _orbital.VerticalAxis.Value = Mathf.Clamp(NormalizeAngle(transform.eulerAngles.x), _minPitch, _maxPitch);
+
+            if (_deoccluder != null)
+            {
+                _deoccluder.CollideAgainst = _collisionMask;
+                _deoccluder.AvoidObstacles.Enabled = true;
+                _deoccluder.AvoidObstacles.CameraRadius = _collisionRadius;
+            }
         }
 
         public void ApplyLookInput(Vector2 lookDelta, bool isRateInput)
         {
-            float scale = isRateInput ? _gamepadLookRate * Time.deltaTime : 1f;
-            _yaw += lookDelta.x * _lookSensitivity * scale;
-            _pitch = Mathf.Clamp(_pitch - lookDelta.y * _lookSensitivity * scale, _minPitch, _maxPitch);
-        }
-
-        private void LateUpdate()
-        {
-            float deltaTime = Time.deltaTime;
-            bool lockedOn = _targetProvider.HasTarget && _targetProvider.TargetTransform != null;
-            Vector3 pivotTarget = ComputePivotTarget(lockedOn);
-
-            if (lockedOn)
-            {
-                UpdateLockedRotation(pivotTarget, deltaTime);
-            }
-
-            if (!_hasPosition)
-            {
-                _hasPosition = true;
-                transform.position = pivotTarget;
-            }
-            else
-            {
-                transform.position = Vector3.SmoothDamp(transform.position, pivotTarget, ref _pivotVelocity, _positionSmoothing);
-            }
-
-            transform.rotation = Quaternion.Euler(_pitch, _yaw, 0f);
-
-            float desiredDistance = lockedOn ? _lockOnDistance : _distance;
-            float distance = ResolveCollision(desiredDistance, deltaTime);
-            _cameraTransform.position = transform.position + transform.rotation * (Vector3.back * distance);
-            _cameraTransform.rotation = transform.rotation;
-        }
-
-        private Vector3 ComputePivotTarget(bool lockedOn)
-        {
-            Vector3 pivot = _followAnchor.position;
-
-            if (!lockedOn)
-            {
-                return pivot;
-            }
-
-            Vector3 toTarget = _targetProvider.TargetPoint - pivot;
-            Vector3 result = pivot + toTarget * _lockOnPivotBias;
-            result.y = pivot.y + _lockOnHeightOffset;
-            return result;
-        }
-
-        private void UpdateLockedRotation(Vector3 pivot, float deltaTime)
-        {
-            Vector3 lookDirection = _targetProvider.TargetPoint - pivot;
-
-            if (lookDirection.sqrMagnitude < 0.0001f)
+            if (_orbital == null)
             {
                 return;
             }
 
-            Quaternion desired = Quaternion.LookRotation(lookDirection, Vector3.up);
-            float desiredYaw = desired.eulerAngles.y;
-            float desiredPitch = Mathf.Clamp(NormalizeAngle(desired.eulerAngles.x), _minPitch, _maxPitch);
-            float rate = 1f - Mathf.Exp(-_lockOnRotationRate * deltaTime);
-            _yaw = Mathf.LerpAngle(_yaw, desiredYaw, rate);
-            _pitch = Mathf.LerpAngle(_pitch, desiredPitch, rate);
+            float scale = isRateInput ? _gamepadLookRate * Time.deltaTime : 1f;
+            _orbital.HorizontalAxis.Value += lookDelta.x * _lookSensitivity * scale;
+            float pitch = _orbital.VerticalAxis.Value - lookDelta.y * _lookSensitivity * scale;
+            _orbital.VerticalAxis.Value = Mathf.Clamp(pitch, _minPitch, _maxPitch);
         }
 
-        private float ResolveCollision(float desiredDistance, float deltaTime)
+        private void LateUpdate()
         {
-            float targetDistance = desiredDistance;
-            Vector3 direction = -(transform.rotation * Vector3.forward);
-
-            if (Physics.SphereCast(
-                    transform.position,
-                    _collisionRadius,
-                    direction,
-                    out RaycastHit hit,
-                    desiredDistance,
-                    _collisionMask,
-                    QueryTriggerInteraction.Ignore))
+            if (_orbital == null)
             {
-                targetDistance = Mathf.Max(hit.distance, _collisionRadius);
+                return;
             }
 
-            float speed = targetDistance < _currentDistance ? _collisionPullInSpeed : _collisionPushOutSpeed;
-            return Mathf.MoveTowards(_currentDistance, targetDistance, speed * deltaTime);
+            bool lockedOn = _targetProvider.HasTarget && _targetProvider.TargetTransform != null;
+            Vector3 pivot = _followAnchor.position;
+
+            if (!lockedOn)
+            {
+                _orbital.TargetOffset = Vector3.zero;
+                _orbital.Radius = _distance;
+                return;
+            }
+
+            Vector3 toTarget = _targetProvider.TargetPoint - pivot;
+            UpdateLockedRotation(toTarget);
+
+            Vector3 pivotOffset = toTarget * _lockOnPivotBias;
+            pivotOffset.y = _lockOnHeightOffset;
+            _orbital.TargetOffset = pivotOffset;
+            _orbital.Radius = _lockOnDistance;
+        }
+
+        private void UpdateLockedRotation(Vector3 toTarget)
+        {
+            if (toTarget.sqrMagnitude < 0.0001f)
+            {
+                return;
+            }
+
+            Quaternion desired = Quaternion.LookRotation(toTarget, Vector3.up);
+            float rate = 1f - Mathf.Exp(-_lockOnRotationRate * Time.deltaTime);
+            _orbital.HorizontalAxis.Value = Mathf.LerpAngle(_orbital.HorizontalAxis.Value, desired.eulerAngles.y, rate);
+            float desiredPitch = Mathf.Clamp(NormalizeAngle(desired.eulerAngles.x), _minPitch, _maxPitch);
+            _orbital.VerticalAxis.Value = Mathf.LerpAngle(_orbital.VerticalAxis.Value, desiredPitch, rate);
         }
 
         private static float NormalizeAngle(float angle)

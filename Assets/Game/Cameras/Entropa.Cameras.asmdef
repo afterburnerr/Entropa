@@ -3,7 +3,8 @@
     "rootNamespace": "Entropa.Cameras",
     "references": [
         "Entropa.Core",
-        "VContainer"
+        "VContainer",
+        "Unity.Cinemachine"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
