@@ -10,7 +10,9 @@
         "Entropa.Gameplay",
         "Unity.InputSystem",
         "UnityEngine.TestRunner",
-        "UnityEditor.TestRunner"
+        "UnityEditor.TestRunner",
+        "Entropa.World",
+        "UniTask"
     ],
     "includePlatforms": [
         "Editor"

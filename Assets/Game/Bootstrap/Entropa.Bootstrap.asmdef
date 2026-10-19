@@ -6,7 +6,8 @@
         "Entropa.Character",
         "Entropa.Core",
         "Entropa.Gameplay",
-        "VContainer"
+        "VContainer",
+        "Entropa.World"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

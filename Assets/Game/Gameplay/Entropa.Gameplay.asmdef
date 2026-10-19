@@ -9,7 +9,8 @@
         "Entropa.Input",
         "UniTask",
         "Unity.InputSystem",
-        "VContainer"
+        "VContainer",
+        "Entropa.World"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

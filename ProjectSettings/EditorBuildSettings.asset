@@ -6,6 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Bootstrap.unity
+    guid: 8cc8bc972c266dcbba72d088676ab145
+  - enabled: 1
+    path: Assets/Scenes/Playground.unity
+    guid: 4c9186ac845d76bfaaf4e8ed7e36e338
+  - enabled: 1
+    path: Assets/Scenes/TwoTowers.unity
+    guid: b972f2b872f481ab1938193954509a09
+  - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   m_configObjects:
